@@ -16,5 +16,11 @@
     "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/customHooks/localStorage.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  
+    "compilerOptions": {
+      "target": "es5",
+      "downlevelIteration": true
+    
+  }
 }

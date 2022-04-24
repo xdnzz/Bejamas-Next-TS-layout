@@ -39,7 +39,9 @@ export default function App() {
   const [basket, setbasket] = useState(false);
   const [hide, setHide] = useState(false);
 
+// const uniqueValues = ['Clean', ...new Set(newData.map((e:any)=>{e.category}))]
 
+const uniqueValues = [...new Set(newData.map(e=>e.category))]
 
   useEffect(() => { setCurrentPage(0) }, [itensPerPage]);
 
@@ -196,13 +198,10 @@ export default function App() {
 
           <div className={styles.filter}>
             <h3>Category</h3>
-            <div><input type="checkbox" id="People" name="People" /><label htmlFor="People">People</label></div>
-            <div><input type="checkbox" id="Premiun" name="Premiun" /><label htmlFor="Premiun">Premiun</label></div>
-            <div><input type="checkbox" id="Pets" name="Pets" /><label htmlFor="Pets">Pets</label></div>
-            <div><input type="checkbox" id="Food" name="Food" /><label htmlFor="Food">Food</label></div>
-            <div><input type="checkbox" id="Landmarks" name="Landmarks" /><label htmlFor="Landmarks">Landmarks</label></div>
-            <div><input type="checkbox" id="Cities" name="Cities" /><label htmlFor="Cities">Cities</label></div>
-            <div><input type="checkbox" id="Nature" name="Nature" /><label htmlFor="Nature">Nature</label></div>
+            {uniqueValues.map((cat:any) => (
+              <div><input type="checkbox" name={cat} /><label htmlFor="20">{cat}</label></div>
+            ))}
+            
             <div className={styles.line}></div>
             <h3>Price range</h3>
             <div><input type="checkbox" id="20" name="20" /><label htmlFor="20">Lower than $20</label></div>
