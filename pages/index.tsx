@@ -133,13 +133,16 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
     const checkData = conv.includes(category) //salvando o resultado de um includes num array
     if(checkData){ //Se o item já existir, retornar uma msg e cancelar o resto da funcao
       const newDataFilter = [...newDataToReturn]
-      const newDataFiltered = newDataToReturn.filter(item => item.category == item);
+      const newDataFilteredSome = newDataToReturn.some(item => item.category === category);
+      console.log(newDataFilteredSome)
+      const newDataFiltered = newDataToReturn.filter(item => item.category != category);
       // setNewDataToReturn([...newDataFilter, newDataFiltered])
+      setNewDataToReturn([...newDataFiltered])
+      console.log(['1',...newDataFilter, '2',...newDataFiltered])
       alert('O item já existe, then you should end the function here instaed of keep it further')
       return
     }
     setNewDataToReturn([...data, ...dataFiltered]);
-    console.log(newDataToReturn)
  
   }
 
