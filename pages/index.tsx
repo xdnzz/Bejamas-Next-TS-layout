@@ -28,6 +28,8 @@ interface data {
 
 export default function App() {
   const [newData, setNewData] = useState<data[]>(productList);
+  const [newDataFilter, setNewDataFilter] = useState<data[]>(productList);
+  const [newDataToReturn, setNewDataToReturn] = useState<any>([]);
   const [itensPerPage, setItensPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(0);
   const pages = Math.ceil(newData.length / itensPerPage);
@@ -39,9 +41,7 @@ export default function App() {
   const [basket, setbasket] = useState(false);
   const [hide, setHide] = useState(false);
 
-// const uniqueValues = ['Clean', ...new Set(newData.map((e:any)=>{e.category}))]
-
-const uniqueValues = [...new Set(newData.map(e=>e.category))]
+const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
 
   useEffect(() => { setCurrentPage(0) }, [itensPerPage]);
 
@@ -95,8 +95,6 @@ const uniqueValues = [...new Set(newData.map(e=>e.category))]
     }
   }
 
-
-
   function addToCart(e: number) {
     const checkItem = teste.some((item: any) => item.id === e)
     if (checkItem) {
@@ -108,9 +106,11 @@ const uniqueValues = [...new Set(newData.map(e=>e.category))]
     setTeste([...teste, filteredData])
     setbasket(true)
   }
+
   function showCart() {
     setbasket(!basket)
   }
+
   function cleanCart() {
     localStorage.clear()
     setTeste([])
@@ -120,8 +120,27 @@ const uniqueValues = [...new Set(newData.map(e=>e.category))]
   function showOPtions() {
     setHide(true)
   }
+  
   function hideOPtions() {
     setHide(false)
+  }
+
+  function filterData(category:string){
+
+    const data = [...newDataToReturn] //pegando os itens do array 
+    const dataFiltered = newData.filter(item=> item.category===category); //filtrando os itens pra retornar só os que tem caregoria igual q to clicando
+    const conv = JSON.stringify(newDataToReturn)
+    const checkData = conv.includes(category) //salvando o resultado de um includes num array
+    if(checkData){ //Se o item já existir, retornar uma msg e cancelar o resto da funcao
+      const newDataFilter = [...newDataToReturn]
+      const newDataFiltered = newDataToReturn.filter(item => item.category == item);
+      // setNewDataToReturn([...newDataFilter, newDataFiltered])
+      alert('O item já existe, then you should end the function here instaed of keep it further')
+      return
+    }
+    setNewDataToReturn([...data, ...dataFiltered]);
+    console.log(newDataToReturn)
+ 
   }
 
 
@@ -199,7 +218,7 @@ const uniqueValues = [...new Set(newData.map(e=>e.category))]
           <div className={styles.filter}>
             <h3>Category</h3>
             {uniqueValues.map((cat:any) => (
-              <div><input type="checkbox" name={cat} /><label htmlFor="20">{cat}</label></div>
+              <div><input type="checkbox" name={cat} onClick={()=>filterData(cat)}/><label htmlFor="20">{cat}</label></div>
             ))}
             
             <div className={styles.line}></div>
@@ -238,7 +257,7 @@ const uniqueValues = [...new Set(newData.map(e=>e.category))]
               <IoIosArrowForward size={18} onClick={impPage} className={currentPage != 3 ? styles.arrowActive : styles.inactivePagination} />
             </div>
 
-
+                {newDataToReturn.map((e:any)=><div>{e.name}</div>)}
           </div>
 
         </div>
