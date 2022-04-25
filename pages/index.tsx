@@ -32,15 +32,15 @@ export default function App() {
   const [newDataToReturn, setNewDataToReturn] = useState<any>([]);
   const [itensPerPage, setItensPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(0);
-  const pages = Math.ceil(newData.length / itensPerPage);
+  const pages = Math.ceil(newDataToReturn.length / itensPerPage);
   const startIndex = currentPage * itensPerPage;
   const endIndex = startIndex + itensPerPage;
-  const currentData = newData.slice(startIndex, endIndex);
+  const currentData = newDataToReturn===[]?newData:newDataToReturn.slice(startIndex, endIndex);
   const [localData, setLocalData] = useState<any>([]);
   const [teste, setTeste] = useLocalStorage('cart', []);
   const [basket, setbasket] = useState(false);
   const [hide, setHide] = useState(false);
-
+console.log(newDataToReturn.lenght)
 const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
 
   useEffect(() => { setCurrentPage(0) }, [itensPerPage]);
@@ -70,7 +70,7 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
   function sortArray(e: string) {
     if (e === 'price') {
       setCurrentPage(3)
-      newData.sort(function (a, b): any {
+      newDataToReturn.sort(function (a, b): any {
         if (a.price < b.price) {
           setItensPerPage(6)
           return -1
@@ -82,7 +82,7 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
 
     } else if (e === 'Alphabetically') {
       setCurrentPage(2)
-      newData.sort(function (a, b): any {
+      newDataToReturn.sort(function (a, b): any {
         if (a.name < b.name) {
           setItensPerPage(6)
           return -1
@@ -139,7 +139,6 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
       // setNewDataToReturn([...newDataFilter, newDataFiltered])
       setNewDataToReturn([...newDataFiltered])
       console.log(['1',...newDataFilter, '2',...newDataFiltered])
-      alert('O item já existe, then you should end the function here instaed of keep it further')
       return
     }
     setNewDataToReturn([...data, ...dataFiltered]);
@@ -260,7 +259,6 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
               <IoIosArrowForward size={18} onClick={impPage} className={currentPage != 3 ? styles.arrowActive : styles.inactivePagination} />
             </div>
 
-                {newDataToReturn.map((e:any)=><div>{e.name}</div>)}
           </div>
 
         </div>
