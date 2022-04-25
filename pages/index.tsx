@@ -9,7 +9,7 @@ import productList from "./api/productList"
 import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useLocalStorage from '../src/customHooks/localStorage';
-
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 
 interface data {
@@ -27,7 +27,6 @@ interface data {
 
 export default function App() {
   const [newData, setNewData] = useState<data[]>(productList);
-  const [filter, setFIlter] = useState(false);
   const [newDataFilter, setNewDataFilter] = useState<data[]>(productList);
   const [newDataToReturn, setNewDataToReturn] = useState<any>(productList);
   const [itensPerPage, setItensPerPage] = useState(6);
@@ -40,17 +39,20 @@ export default function App() {
   const [teste, setTeste] = useLocalStorage('cart', []);
   const [basket, setbasket] = useState(false);
   const [hide, setHide] = useState(false);
-  const uniqueValues = [...new Set(newDataFilter.map(e => e.category))]
+  const uniqueValues = [...new Set(newDataFilter.map(e => e.category))];
+  const [filter, setFilter] = useState(false);
 
-  useEffect(() => { setCurrentPage(0) }, [itensPerPage]);
+  useEffect(() => { setCurrentPage(0) }, [itensPerPage, filter]);
 
   useEffect(() => {
     const nos = localStorage.getItem('cart')
     setLocalData(JSON.parse(nos!) || [])
 
   }, [teste, cleanCart]);
+  //criar uma funcao ao clicar nos filtros para zerar o newDataToReturn, a funcao vai zerar o array, e quando fechar o filtro, ele preenche o array
 
 
+  // console.log(newDataToReturn.length)
   function decPage() {
     if (currentPage != 0) {
       setCurrentPage(currentPage - 1)
@@ -69,7 +71,7 @@ export default function App() {
 
   function sortArray(e: string) {
     if (e === 'price') {
-      setCurrentPage(3)
+      setCurrentPage(0)
       newDataToReturn.sort(function (a, b): any {
         if (a.price < b.price) {
           setItensPerPage(6)
@@ -81,7 +83,7 @@ export default function App() {
       })
 
     } else if (e === 'Alphabetically') {
-      setCurrentPage(2)
+      setCurrentPage(0)
       newDataToReturn.sort(function (a, b): any {
         if (a.name < b.name) {
           setItensPerPage(6)
@@ -125,9 +127,10 @@ export default function App() {
     setHide(false)
   }
 
-
- 
   function filterData(category: string) {
+    if (newDataToReturn.includes(JSON.stringify(productList))) {
+      alert('tem')
+    }
     const data = [...newDataToReturn] //pegando os itens do array 
     const dataFiltered = newData.filter(item => item.category === category); //filtrando os itens pra retornar só os que tem caregoria igual q to clicando
     const conv = JSON.stringify(newDataToReturn)
@@ -137,11 +140,22 @@ export default function App() {
       setNewDataToReturn([...newDataFiltered])
       return
     }
-    setNewDataToReturn([...data, ...dataFiltered])
-    setNewDataToReturn([...data, ...dataFiltered])
+    setNewDataToReturn([...data, ...dataFiltered]);
+  }
+  //estudar o useCallBack para aplicar a esta funcao
+
+
+  function handleShowAndHideItens() {
+    setFilter(!filter)
   }
 
- 
+  useEffect(() => {
+    if(filter) {
+      setNewDataToReturn([])
+    }else if(!filter){
+      setNewDataToReturn(productList)
+    }
+  }, [filter])
 
 
   return (
@@ -215,21 +229,28 @@ export default function App() {
         <div className={styles.data}>
 
           <div className={styles.filter}>
-            <h3>Category</h3>
+            <div className={styles.category}>
+              <h3>Category</h3>
+              <MdOutlineKeyboardArrowDown
+                size={30}
+                className={filter? styles.arrowClick : styles.arrow }
+                onClick={handleShowAndHideItens}
+              /></div>
             {uniqueValues.map((cat: any) => (
-              <div><input type="checkbox" name={cat} onClick={() => filterData(cat)} /><label htmlFor="20">{cat}</label></div>
+              <div style={!filter?{display:'none'}:{display:''}}><input type="checkbox" name={cat} onClick={() => filterData(cat)} /><label htmlFor="20">{cat}</label></div>
             ))}
 
-            <div className={styles.line}></div>
+            <div  style={!filter? {display:'none'}:{display:''}} className={styles.lineFilter}></div>
+            <div style={!filter? {display:'none'}:{display:''}}>
             <h3>Price range</h3>
             <div><input type="checkbox" id="20" name="20" /><label htmlFor="20">Lower than $20</label></div>
             <div><input type="checkbox" id="20100" name="20100" /><label htmlFor="20100">$20 - $100</label></div>
             <div><input type="checkbox" id="100200" name="100200" /><label htmlFor="100200">$100 - $200</label></div>
             <div><input type="checkbox" id="200plus" name="200plus" /><label htmlFor="200plus">More than $200</label></div>
+            </div>
           </div>
 
           <div className={styles.showData}>
-
             <div className={styles.content}>
               {currentData.map((e) => (
                 <div onMouseOver={showOPtions}
@@ -262,9 +283,6 @@ export default function App() {
 
       </section>
 
-
-      <button onClick={() => setNewDataToReturn([])}>Abrir filtro </button>
-      <button onClick={() => setNewDataToReturn(productList)}>Fechar filtro </button>
     </div>
   );
 }
