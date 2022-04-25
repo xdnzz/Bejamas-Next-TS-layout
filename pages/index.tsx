@@ -1,7 +1,6 @@
 import styles from "../styles/Home.module.css";
 import Header from "../src/components/header";
 import Image from "next/image";
-import SamuraiDog from "../src/assets/SamuraiDog.png";
 import frame1 from "../src/assets/frame1.svg";
 import frame2 from "../src/assets/frame2.svg";
 import frame3 from "../src/assets/frame3.svg";
@@ -28,20 +27,20 @@ interface data {
 
 export default function App() {
   const [newData, setNewData] = useState<data[]>(productList);
+  const [filter, setFIlter] = useState(false);
   const [newDataFilter, setNewDataFilter] = useState<data[]>(productList);
-  const [newDataToReturn, setNewDataToReturn] = useState<any>([]);
+  const [newDataToReturn, setNewDataToReturn] = useState<any>(productList);
   const [itensPerPage, setItensPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(0);
   const pages = Math.ceil(newDataToReturn.length / itensPerPage);
   const startIndex = currentPage * itensPerPage;
   const endIndex = startIndex + itensPerPage;
-  const currentData = newDataToReturn===[]?newData:newDataToReturn.slice(startIndex, endIndex);
+  const currentData = newDataToReturn === [] ? newData : newDataToReturn.slice(startIndex, endIndex);
   const [localData, setLocalData] = useState<any>([]);
   const [teste, setTeste] = useLocalStorage('cart', []);
   const [basket, setbasket] = useState(false);
   const [hide, setHide] = useState(false);
-console.log(newDataToReturn.lenght)
-const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
+  const uniqueValues = [...new Set(newDataFilter.map(e => e.category))]
 
   useEffect(() => { setCurrentPage(0) }, [itensPerPage]);
 
@@ -50,6 +49,7 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
     setLocalData(JSON.parse(nos!) || [])
 
   }, [teste, cleanCart]);
+
 
   function decPage() {
     if (currentPage != 0) {
@@ -120,31 +120,28 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
   function showOPtions() {
     setHide(true)
   }
-  
+
   function hideOPtions() {
     setHide(false)
   }
 
-  function filterData(category:string){
 
+ 
+  function filterData(category: string) {
     const data = [...newDataToReturn] //pegando os itens do array 
-    const dataFiltered = newData.filter(item=> item.category===category); //filtrando os itens pra retornar só os que tem caregoria igual q to clicando
+    const dataFiltered = newData.filter(item => item.category === category); //filtrando os itens pra retornar só os que tem caregoria igual q to clicando
     const conv = JSON.stringify(newDataToReturn)
     const checkData = conv.includes(category) //salvando o resultado de um includes num array
-    if(checkData){ //Se o item já existir, retornar uma msg e cancelar o resto da funcao
-      const newDataFilter = [...newDataToReturn]
-      const newDataFilteredSome = newDataToReturn.some(item => item.category === category);
-      console.log(newDataFilteredSome)
+    if (checkData) { //Se o item já existir, retornar uma msg e cancelar o resto da funcao
       const newDataFiltered = newDataToReturn.filter(item => item.category != category);
-      // setNewDataToReturn([...newDataFilter, newDataFiltered])
       setNewDataToReturn([...newDataFiltered])
-      console.log(['1',...newDataFilter, '2',...newDataFiltered])
       return
     }
-    setNewDataToReturn([...data, ...dataFiltered]);
- 
+    setNewDataToReturn([...data, ...dataFiltered])
+    setNewDataToReturn([...data, ...dataFiltered])
   }
 
+ 
 
 
   return (
@@ -219,10 +216,10 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
 
           <div className={styles.filter}>
             <h3>Category</h3>
-            {uniqueValues.map((cat:any) => (
-              <div><input type="checkbox" name={cat} onClick={()=>filterData(cat)}/><label htmlFor="20">{cat}</label></div>
+            {uniqueValues.map((cat: any) => (
+              <div><input type="checkbox" name={cat} onClick={() => filterData(cat)} /><label htmlFor="20">{cat}</label></div>
             ))}
-            
+
             <div className={styles.line}></div>
             <h3>Price range</h3>
             <div><input type="checkbox" id="20" name="20" /><label htmlFor="20">Lower than $20</label></div>
@@ -244,7 +241,7 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
                   <span className={styles.itemCategory}>{e.category}</span>
                   <span className={styles.itemName}>{e.name}</span>
                   <span className={styles.itemPrice}>{e.price} {e.currency}</span>
-                  <label>{e.bestseller ? ' ✦ Best Seller ✦ ' : '⠀'}</label>
+                  <label>{e.bestseller ? ' Best Seller ✦ ' : '⠀'}{e.featured ? '| Featured ✰' : ''}</label>
                   <button style={{ display: 'none' }} onClick={() => addToCart(e.id)}>ADD TO CART</button>
                 </div>
               ))}
@@ -265,6 +262,9 @@ const uniqueValues = [...new Set(newDataFilter.map(e=>e.category))]
 
       </section>
 
+
+      <button onClick={() => setNewDataToReturn([])}>Abrir filtro </button>
+      <button onClick={() => setNewDataToReturn(productList)}>Fechar filtro </button>
     </div>
   );
 }
