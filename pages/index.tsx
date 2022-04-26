@@ -49,10 +49,8 @@ export default function App() {
     setLocalData(JSON.parse(nos!) || [])
 
   }, [teste, cleanCart]);
-  //criar uma funcao ao clicar nos filtros para zerar o newDataToReturn, a funcao vai zerar o array, e quando fechar o filtro, ele preenche o array
 
 
-  // console.log(newDataToReturn.length)
   function decPage() {
     if (currentPage != 0) {
       setCurrentPage(currentPage - 1)
@@ -128,9 +126,7 @@ export default function App() {
   }
 
   function filterData(category: string) {
-    if (newDataToReturn.includes(JSON.stringify(productList))) {
-      alert('tem')
-    }
+
     const data = [...newDataToReturn] //pegando os itens do array 
     const dataFiltered = newData.filter(item => item.category === category); //filtrando os itens pra retornar só os que tem caregoria igual q to clicando
     const conv = JSON.stringify(newDataToReturn)
@@ -149,14 +145,14 @@ export default function App() {
   }
 
   useEffect(() => {
-    if(filter) {
+    if (filter) {
       setNewDataToReturn([])
-    }else if(!filter){
+    } else if (!filter) {
       setNewDataToReturn(productList)
     }
   }, [filter])
 
-  function reverseitem(){
+  function reverseitem() {
     newDataToReturn.reverse()
   }
 
@@ -190,10 +186,11 @@ export default function App() {
         {newData.map((e) => (
           <>
             {e.featured ? <div className={styles.titleSection}>
-              <h1> {e.name}</h1>
+              <h1>{e.name}</h1>
               <button onClick={() => addToCart(e.id)}>ADD TO CART</button>
             </div> : ''}
-            <img className={styles.imgFeatured} src={e.featured ? e.image : ''} />
+            <img className={styles.imgFeatured} src={e.featured ? e.image : ''}/>
+            {e.featured? <div className={styles.featuredLabel}><span>Photo of the day</span></div>:''}
             <div className={styles.featuredItem}>
               <div className={styles.featuredText}>
                 {e.featured ? <h3>{e.name}</h3> : ''}
@@ -236,20 +233,20 @@ export default function App() {
               <h3>Category</h3>
               <MdOutlineKeyboardArrowDown
                 size={30}
-                className={filter? styles.arrowClick : styles.arrow }
+                className={filter ? styles.arrowClick : styles.arrow}
                 onClick={handleShowAndHideItens}
               /></div>
             {uniqueValues.map((cat: any) => (
-              <div style={!filter?{display:'none'}:{display:''}}><input type="checkbox" name={cat} onClick={() => filterData(cat)} /><label htmlFor="20">{cat}</label></div>
+              <div style={!filter ? { display: 'none' } : { display: '' }}><input type="checkbox" name={cat} onClick={() => filterData(cat)} /><label htmlFor="20">{cat}</label></div>
             ))}
 
-            <div  style={!filter? {display:'none'}:{display:''}} className={styles.lineFilter}></div>
-            <div style={!filter? {display:'none'}:{display:''}}>
-            <h3>Price range</h3>
-            <div><input type="checkbox" id="20" name="20" /><label htmlFor="20">Lower than $20</label></div>
-            <div><input type="checkbox" id="20100" name="20100" /><label htmlFor="20100">$20 - $100</label></div>
-            <div><input type="checkbox" id="100200" name="100200" /><label htmlFor="100200">$100 - $200</label></div>
-            <div><input type="checkbox" id="200plus" name="200plus" /><label htmlFor="200plus">More than $200</label></div>
+            <div style={!filter ? { display: 'none' } : { display: '' }} className={styles.lineFilter}></div>
+            <div style={!filter ? { display: 'none' } : { display: '' }}>
+              <h3>Price range</h3>
+              <div><input type="checkbox" id="20" name="20" /><label htmlFor="20">Lower than $20</label></div>
+              <div><input type="checkbox" id="20100" name="20100" /><label htmlFor="20100">$20 - $100</label></div>
+              <div><input type="checkbox" id="100200" name="100200" /><label htmlFor="100200">$100 - $200</label></div>
+              <div><input type="checkbox" id="200plus" name="200plus" /><label htmlFor="200plus">More than $200</label></div>
             </div>
           </div>
 
@@ -271,7 +268,7 @@ export default function App() {
               ))}
             </div>
             <div className={styles.pagination}>
-              <IoIosArrowBack  onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} />
+              <IoIosArrowBack onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} />
               {Array.from(Array(pages), (item, index) => {
                 return <div className={styles.currentPage}>
                   <button style={index === currentPage ? { color: '#000', fontSize: '20px' } : { color: '#B4B4B4' }} value={index} onClick={(e: any) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>

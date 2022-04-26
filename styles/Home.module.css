@@ -203,7 +203,7 @@
 }
 
 .category {
-  display:flex;
+  display: flex;
   align-items: center;
 }
 
@@ -241,7 +241,7 @@
 }
 
 .buttonInactive {
-display: none;
+  display: none;
 }
 
 .inactivePagination {
@@ -264,6 +264,10 @@ display: none;
 .cartHolderHide {
   display: none;
 
+}
+
+.cartItemImage img {
+  width: 80px;
 }
 
 .cartItems {
@@ -294,9 +298,8 @@ display: none;
   width: 1000px;
 }
 
-.cartItemImage img {
-  width: 40px;
-}
+
+
 
 .cartHolder h4 {
   margin: 0 auto;
@@ -311,6 +314,7 @@ display: none;
 .hideButton {
   display: none;
 }
+
 .featuredText {
   width: 100%;
   display: flex;
@@ -322,8 +326,25 @@ display: none;
 }
 
 .imgFeatured {
-  width: 50%;
+  width: 80%;
 }
+
+.featuredLabel {
+  margin: 0 auto;
+  z-index: 1 !important;
+  margin: -35px 565px 20px 0;
+}
+
+.featuredLabel span {
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #fff;
+  font-family: 'Anek Tamil', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+}
+
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
