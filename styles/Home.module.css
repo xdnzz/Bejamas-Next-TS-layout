@@ -366,6 +366,10 @@ font-weight: 900;
   font-size: 30px;
 }
 
+.hideArrow {
+  display: none;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

@@ -267,13 +267,14 @@ export default function App() {
               ))}
             </div>
             <div className={styles.pagination}>
-              <IoIosArrowBack onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} />
+              <div className={filter ? styles.hideArrow : ''}><IoIosArrowBack onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} /></div>
               {Array.from(Array(pages), (item, index) => {
                 return <div className={styles.currentPage}>
                   <button style={index === currentPage ? { color: '#000', fontSize: '20px' } : { color: '#B4B4B4' }} value={index} onClick={(e: any) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
                 </div>
               })}
-              <IoIosArrowForward size={18} onClick={impPage} className={currentPage != 3 ? styles.arrowActive : styles.inactivePagination} />
+              <div className={filter ? styles.hideArrow : ''}> <IoIosArrowForward size={18} onClick={impPage} className={currentPage != 3 ? styles.arrowActive : styles.inactivePagination} /></div>
+             
             </div>
 
           </div>
