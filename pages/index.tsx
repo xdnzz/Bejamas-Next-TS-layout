@@ -215,7 +215,7 @@ export default function App() {
         <div className={styles.line}></div>
         <div className={styles.dataSection}>
           <div className={styles.selectData}>
-            <span>Photograpy</span> / <span>Premiun Photos</span>
+            <span className={styles.photography}>Photograpy/</span><span className={styles.premiumPhotos}>Premiun Photos</span>
           </div>
           <div className={styles.sortData}>
             <CgArrowsExchangeV size={25} onClick={reverseitem} />

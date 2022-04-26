@@ -112,6 +112,15 @@
   font-size: 30px;
 }
 
+.premiumPhotos {
+  color: #9B9B9B;
+}
+
+.photography {
+font-weight: 900;
+
+}
+
 .selectData {
   display: flex;
   align-items: center;

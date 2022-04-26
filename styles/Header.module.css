@@ -16,3 +16,28 @@
 .logo {
     margin-top: 15px;
 }
+
+.counter {
+    background: #000000;
+    color: #fff; 
+    margin: 0 auto;
+    z-index: 99999 !important;
+    width: 30px;
+    height: 30px;
+    border-radius:100%;
+}
+
+.counter span {
+    padding: 8px;
+    font-size: 10px;
+}
+
+.icon {
+    display:flex;
+    flex-direction: row;
+
+}
+
+.counterHidden {
+    display: hidden;
+}

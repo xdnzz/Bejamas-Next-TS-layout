@@ -21,7 +21,7 @@ export default function Header({ badgeContent, cartItens }: props) {
             </div>
             <div className="icon">
                 <Badge onClick={cartItens} badgeContent={badgeContent} color="secondary" style={{ marginTop: '10px' }}>
-                <Image src={CartSVG} width={30} />
+                    <Image src={CartSVG} width={30} />
                 </Badge>
             </div>
 
