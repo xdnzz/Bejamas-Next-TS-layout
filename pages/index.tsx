@@ -142,7 +142,6 @@ export default function App() {
     }
     setNewDataToReturn([...data, ...dataFiltered]);
   }
-  //estudar o useCallBack para aplicar a esta funcao
 
 
   function handleShowAndHideItens() {
@@ -156,6 +155,10 @@ export default function App() {
       setNewDataToReturn(productList)
     }
   }, [filter])
+
+  function reverseitem(){
+    newDataToReturn.reverse()
+  }
 
 
   return (
@@ -218,7 +221,7 @@ export default function App() {
             <span>Photograpy</span> / <span>Premiun Photos</span>
           </div>
           <div className={styles.sortData}>
-            <CgArrowsExchangeV size={25} />
+            <CgArrowsExchangeV size={25} onClick={reverseitem} />
             <span>Sort By</span>
             <select onClick={(e: any) => sortArray(e.target.value)}>
               <option value="Alphabetically">Alphabetically</option>
@@ -268,7 +271,7 @@ export default function App() {
               ))}
             </div>
             <div className={styles.pagination}>
-              <IoIosArrowBack size={18} onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} />
+              <IoIosArrowBack  onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} />
               {Array.from(Array(pages), (item, index) => {
                 return <div className={styles.currentPage}>
                   <button style={index === currentPage ? { color: '#000', fontSize: '20px' } : { color: '#B4B4B4' }} value={index} onClick={(e: any) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
