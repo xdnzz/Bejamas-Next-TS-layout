@@ -353,6 +353,18 @@ font-weight: 900;
   font-weight: 700;
 }
 
+.displayOut {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 350px;
+}
+
+.displayOut span {
+  font-family: 'Anek Tamil', sans-serif;
+  font-size: 30px;
+}
 
 @media (max-width: 600px) {
   .grid {

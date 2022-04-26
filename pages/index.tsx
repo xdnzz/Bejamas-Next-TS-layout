@@ -156,7 +156,6 @@ export default function App() {
     newDataToReturn.reverse()
   }
 
-
   return (
     <div className={styles.container}>
       <Header cartItens={showCart} badgeContent={teste.length} />
@@ -252,7 +251,7 @@ export default function App() {
 
           <div className={styles.showData}>
             <div className={styles.content}>
-              {currentData.map((e) => (
+              {currentData.length === 0 ? <div className={styles.displayOut}><span>Filter the product you wanna see</span></div> : currentData.map((e) => (
                 <div onMouseOver={showOPtions}
                   className={styles.cardItem}
                   onMouseOut={hideOPtions}
