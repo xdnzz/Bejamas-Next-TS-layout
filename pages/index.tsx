@@ -24,6 +24,11 @@ interface data {
   details: null | string;
 }
 
+interface localData {
+  name: string;
+  price: number; 
+  image: string;
+}
 
 export default function App() {
   const [newData, setNewData] = useState<data[]>(productList);
@@ -163,7 +168,7 @@ export default function App() {
         <div className={styles.titleSection}>
           <div className={basket ? styles.cartHolder : styles.cartHolderHide}>
             {localData.length <= 0 ? <h4>Empty.</h4> : <h4 onClick={cleanCart}>Clean Cart</h4>}
-            {localData === [] ? '' : localData.map((item: any) => {
+            {localData === [] ? '' : localData.map((item: localData) => {
               return (
                 <>
                   <div className={styles.cartItems}>
@@ -267,13 +272,13 @@ export default function App() {
               ))}
             </div>
             <div className={styles.pagination}>
-              <div className={filter ? styles.hideArrow : ''}><IoIosArrowBack onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} /></div>
+              <IoIosArrowBack onClick={decPage} className={currentPage != 0 ? styles.arrowActive : styles.inactivePagination} />
               {Array.from(Array(pages), (item, index) => {
                 return <div className={styles.currentPage}>
                   <button style={index === currentPage ? { color: '#000', fontSize: '20px' } : { color: '#B4B4B4' }} value={index} onClick={(e: any) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
                 </div>
               })}
-              <div className={filter ? styles.hideArrow : ''}> <IoIosArrowForward size={18} onClick={impPage} className={currentPage != 3 ? styles.arrowActive : styles.inactivePagination} /></div>
+               <IoIosArrowForward size={18} onClick={impPage} className={currentPage != 3 ? styles.arrowActive : styles.inactivePagination} />
              
             </div>
 
